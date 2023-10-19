@@ -17,9 +17,37 @@ class Exercise {
 }
 
 const utils = {
-
+    pageContent: function(titre, content, btn) {
+        document.querySelector("h1").innerHTML = titre;
+        main.innerHTML = content;
+        document.querySelector(".btn-container").innerHTML = btn;
+    }
 }
 
 const page = {
-    
+    lobby: function() {
+        utils.pageContent(
+            `Paramétrage <i id="reboot" class="fas fa-undo"></i>`,
+            `Exercices`,
+            `<button id="start">Commencer <i class="far fa-play-circle"></i></button>`
+        )
+
+    },
+
+    routine: function() {
+        utils.pageContent(
+            `Routine`,
+            `Exercice avec chrono`,
+            null
+        )
+    },
+
+    finish: function() {
+        utils.pageContent(
+            `C'est terminer`,
+            `<button id="start">Recommencer</button>`,
+            `<button id="reboot" class="btn-reboot">Réinitialiser <i class="fas fa-times-circle"></i></button>`
+        )
+    }
 }
+page.finish();
