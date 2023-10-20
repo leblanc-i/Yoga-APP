@@ -39,6 +39,7 @@ const utils = {
       });
     });
   },
+  // La fonction qui permet d'intervertir les element
   handleEventArrow: function () {
     document.querySelectorAll(".arrow").forEach((arrow) => {
       arrow.addEventListener("click", (e) => {
@@ -60,6 +61,26 @@ const utils = {
       });
     });
   },
+  // La fonction qui supprime un element
+  deleteItem: function () {
+    document.querySelectorAll(".deleteBtn").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+            // On cree un nouveau tableau
+            let newArray = [];
+            // Ensuite on parcours le tableau des elements
+            arrayExercise.map((exo) => {
+                // Et on renvoit tout les elements dans un nouveau tableau exepté celui sur lequel on avait cliquez
+                if (exo.pic != e.target.dataset.pic) {
+                    newArray.push(exo);
+                }
+            });
+            // On remplace le contenu de notre tableau par celui du nouveau tableau
+            arrayExercise = newArray;
+            // Et on affiche le contenu
+            page.lobby();
+        })
+    })
+  }
 };
 
 // Contiens toutes les pages du projet
@@ -91,6 +112,8 @@ const page = {
     utils.handleEventMinutes();
     // Fonction qui gere l'evenement sur la fleche
     utils.handleEventArrow();
+    // Fonctions qui gere l'evenement pour supprimer un exo de la liste
+    utils.deleteItem();
   },
 
   // La deuxieme page(routine)
