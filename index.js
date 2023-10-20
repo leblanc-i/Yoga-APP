@@ -1,16 +1,19 @@
 const main = document.querySelector("main");
-let arrayExercise = [
-  { pic: 0, min: 1 },
-  { pic: 1, min: 1 },
-  { pic: 2, min: 1 },
-  { pic: 3, min: 1 },
-  { pic: 4, min: 1 },
-  { pic: 5, min: 1 },
-  { pic: 6, min: 1 },
-  { pic: 7, min: 1 },
-  { pic: 8, min: 1 },
-  { pic: 9, min: 1 },
-];
+
+// Notre tableau de base
+const basicArray = [
+    { pic: 0, min: 1 },
+    { pic: 1, min: 1 },
+    { pic: 2, min: 1 },
+    { pic: 3, min: 1 },
+    { pic: 4, min: 1 },
+    { pic: 5, min: 1 },
+    { pic: 6, min: 1 },
+    { pic: 7, min: 1 },
+    { pic: 8, min: 1 },
+    { pic: 9, min: 1 },
+]
+let arrayExercise = [];
 
 // Cette classe est le generateur des exercices
 class Exercise {}
@@ -80,6 +83,12 @@ const utils = {
             page.lobby();
         })
     })
+  },
+
+  // Fonction qui ramene le tableau au complet
+  reboot: function() {
+    arrayExercise = basicArray;
+    page.lobby();
   }
 };
 
@@ -114,6 +123,8 @@ const page = {
     utils.handleEventArrow();
     // Fonctions qui gere l'evenement pour supprimer un exo de la liste
     utils.deleteItem();
+    // Evenement sur le bouton reboot pour ramener tous les elements
+    reboot.addEventListener("click", () => utils.reboot())
   },
 
   // La deuxieme page(routine)
