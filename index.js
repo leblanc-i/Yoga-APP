@@ -14,6 +14,16 @@ const basicArray = [
     { pic: 9, min: 1 },
 ]
 let arrayExercise = [];
+// On test au lancement de l'application est-ce-qu'on a quelque chose qui est stocker si y'a rien de stocker on passe à arrayExercise notre tableau de base et si y'a quelque chose de stocker on passe à arrayExercise ce qui est stocker dans le localSorage
+
+// Fonction qui se lance toute seule au demarrage elle se lance une fois et elle se lance plus
+(() => {
+    if (localStorage.exercises) {
+        arrayExercise = localStorage.exercises;
+    } else {
+        arrayExercise = basicArray;
+    }
+})();
 
 // Cette classe est le generateur des exercices
 class Exercise {}
