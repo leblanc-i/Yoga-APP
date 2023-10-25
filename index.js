@@ -36,10 +36,11 @@ class Exercise {
   // Fonction comptedown
   updateCountdown() {
     this.seconds = this.seconds < 10 ? "0" + this.seconds : this.seconds;
-
+    // compte à rebours et passer d'un exo à un autre
     setTimeout(() => {
       if (this.minutes === 0 && this.seconds === "00") {
         this.index ++;
+        this.ring();
         if (this.index < arrayExercise.length) {
           this.minutes = arrayExercise[this.index].min;
           this.seconds = 0;
@@ -55,7 +56,7 @@ class Exercise {
         this.seconds --;
         this.updateCountdown();
       }
-    }, 100)
+    }, 10)
 
     return (main.innerHTML = `
       <div class="exercice-container">
@@ -64,6 +65,13 @@ class Exercise {
         <div>${this.index + 1} / ${arrayExercise.length}</div>
       </div>
     `)
+  }
+
+  // Fonction de la sonnette
+  ring() {
+    const audio = new Audio();
+    audio.src = "ring.mp3";
+    audio.play();
   }
 }
 
@@ -202,6 +210,16 @@ const page = {
       `<button id="start">Recommencer</button>`,
       `<button id="reboot" class="btn-reboot">Réinitialiser <i class="fas fa-times-circle"></i></button>`
     );
+    // Bouton pour recommencer les exos
+    start.addEventListener("click", () => {
+      this.routine();
+      
+    })
+
+    // Bouton pour reinitialiser les exos et refaire les choix
+    reboot.addEventListener("click", () => {
+      utils.reboot();
+    })
   },
 };
 page.lobby();
