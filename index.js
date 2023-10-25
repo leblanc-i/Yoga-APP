@@ -19,14 +19,53 @@ let arrayExercise = [];
 // Fonction qui se lance toute seule au demarrage elle se lance une fois et elle se lance plus
 (() => {
     if (localStorage.exercises) {
-        arrayExercise = localStorage.exercises;
+        arrayExercise = JSON.parse(localStorage.exercises);
     } else {
         arrayExercise = basicArray;
     }
 })();
 
 // Cette classe est le generateur des exercices
-class Exercise {}
+class Exercise {
+  constructor() {
+    this.index = 0;
+    this.minutes = arrayExercise[this.index].min;
+    this.seconds = 0;
+  }
+
+  // Fonction comptedown
+  updateCountdown() {
+    this.seconds = this.seconds < 10 ? "0" + this.seconds : this.seconds;
+
+    setTimeout(() => {
+      if (this.minutes === 0 && this.seconds === "00") {
+        this.index ++;
+        if (this.index < arrayExercise.length) {
+          this.minutes = arrayExercise[this.index].min;
+          this.seconds = 0;
+          this.updateCountdown();
+        } else {
+          return page.finish();
+        }
+      } else if (this.seconds === "00") {
+        this.minutes --;
+        this.seconds = 59;
+        this.updateCountdown();
+      } else {
+        this.seconds --;
+        this.updateCountdown();
+      }
+    }, 100)
+
+    return (main.innerHTML = `
+      <div class="exercice-container">
+        <p>${this.minutes}:${this.seconds}</p>
+        <img src="./img/${arrayExercise[this.index].pic}.png" />
+        <div>${this.index + 1} / ${arrayExercise.length}</div>
+      </div>
+    `)
+  }
+}
 
 // C'est là ou se trouve toutes nos fonctions utiles au projet
 const utils = {
@@ -46,7 +85,7 @@ const utils = {
             // Passer un nombre de minute à l'exo
             // Et convertir le string en number
             exo.min = parseInt(e.target.value);
-            console.log(arrayExercise);
+            this.store();
           }
         });
       });
@@ -66,6 +105,7 @@ const utils = {
 
             // Affiche quand tu as intervertis
             page.lobby();
+            this.store();
           } 
           else {
             position++;
@@ -91,6 +131,7 @@ const utils = {
             arrayExercise = newArray;
             // Et on affiche le contenu
             page.lobby();
+            this.store();
         })
     })
   },
@@ -99,9 +140,12 @@ const utils = {
   reboot: function() {
     arrayExercise = basicArray;
     page.lobby();
+    this.store();
   },
+  
+  // Fonction qui nous permet de stocker nos elements
   store: function () {
-    localStorage
+    localStorage.exercises = JSON.stringify(arrayExercise);
   }
 };
 
@@ -137,12 +181,18 @@ const page = {
     // Fonctions qui gere l'evenement pour supprimer un exo de la liste
     utils.deleteItem();
     // Evenement sur le bouton reboot pour ramener tous les elements
-    reboot.addEventListener("click", () => utils.reboot())
+    reboot.addEventListener("click", () => utils.reboot());
+    // Evenement sur le boutton start pour commencer le compte à rebours
+    start.addEventListener("click", () => {
+      this.routine();
+    })
   },
 
   // La deuxieme page(routine)
   routine: function () {
-    utils.pageContent(`Routine`, `Exercice avec chrono`, null);
+    const exercice = new Exercise();
+
+    utils.pageContent(`Routine`, exercice.updateCountdown(), null);
   },
 
   // La troisieme page(finish)
