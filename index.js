@@ -99,6 +99,9 @@ const utils = {
   reboot: function() {
     arrayExercise = basicArray;
     page.lobby();
+  },
+  store: function () {
+    localStorage
   }
 };
 
