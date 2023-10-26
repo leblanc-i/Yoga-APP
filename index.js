@@ -56,7 +56,7 @@ class Exercise {
         this.seconds --;
         this.updateCountdown();
       }
-    }, 10)
+    }, 1000)
 
     return (main.innerHTML = `
       <div class="exercice-container">
@@ -213,7 +213,7 @@ const page = {
     // Bouton pour recommencer les exos
     start.addEventListener("click", () => {
       this.routine();
-      
+
     })
 
     // Bouton pour reinitialiser les exos et refaire les choix
